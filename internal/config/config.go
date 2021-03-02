@@ -1,6 +1,6 @@
 package config
 
-import "time"
+import "github.com/spf13/viper"
 
 var CONF = &BaseConfig{}
 
@@ -9,7 +9,7 @@ type BaseConfig struct {
 	MQEngine MQEngine
 	DBConfig DBConfig
 
-	CDCStartTimestamp time.Duration // is 0 then real time data
+	CDCStartTimestamp int64 // is 0 then real time data
 
 	KafkaConfig    *KafkaConfig
 	NSQConfig      *NSQConfig
@@ -28,12 +28,16 @@ type MQEngine string
 var (
 	Kafka    MQEngine = "Kafka"
 	NSQ      MQEngine = "NSQ"
-	RabbitMQ MQEngine   = "RabbitMQ"
+	RabbitMQ MQEngine = "RabbitMQ"
 )
+
+func (m MQEngine) String() string {
+	return string(m)
+}
 
 type DBConfig struct {
 	Host     string
-	Port     string
+	Port     int64
 	User     string
 	Password string
 }
@@ -50,4 +54,25 @@ type NSQConfig struct {
 }
 
 type RabbitMQConfig struct {
+}
+
+// InitConfiguration ...
+func InitConfiguration(configName string, configPaths []string, config interface{}) error {
+	vp := viper.New()
+	vp.SetConfigName(configName)
+	vp.AutomaticEnv()
+	for _, configPath := range configPaths {
+		vp.AddConfigPath(configPath)
+	}
+
+	if err := vp.ReadInConfig(); err != nil {
+		return err
+	}
+
+	err := vp.Unmarshal(config)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

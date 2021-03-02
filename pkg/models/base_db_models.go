@@ -15,7 +15,7 @@ type MQEvent struct {
 	Table  *Table          `json:"table"`
 	Action Action          `json:"action"`
 	Rows   [][]interface{} `json:"rows"`
-	Header EventHeader     `json:"header"`
+	Header *EventHeader    `json:"header"`
 }
 
 // Table
