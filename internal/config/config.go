@@ -1,11 +1,15 @@
 package config
 
-var CONF = &baseConfig{}
+import "time"
 
-type baseConfig struct {
+var CONF = &BaseConfig{}
+
+type BaseConfig struct {
 	Engine   Engine
 	MQEngine MQEngine
 	DBConfig DBConfig
+
+	CDCStartTimestamp time.Duration // is 0 then real time data
 
 	KafkaConfig    *KafkaConfig
 	NSQConfig      *NSQConfig
@@ -24,7 +28,7 @@ type MQEngine string
 var (
 	Kafka    MQEngine = "Kafka"
 	NSQ      MQEngine = "NSQ"
-	RabbitMQ Engine   = "RabbitMQ"
+	RabbitMQ MQEngine   = "RabbitMQ"
 )
 
 type DBConfig struct {
