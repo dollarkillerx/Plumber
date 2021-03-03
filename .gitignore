@@ -16,3 +16,5 @@
 .idea
 plumber
 configs/config.yaml.bak
+cmd/plumber
+plumber.tar

@@ -9,6 +9,11 @@
 - [x] RabbitMQ
 - [ ] MongoDB
 
+### Deploy
+- `docker run --name plumber -p 8089:8089 dollarkiller/plumber:latest`
+- docker-compose
+- k8s
+
 ### Establishing CDC Listening
 POST: `http://127.0.0.1:8089/new_monitor`
 Body:

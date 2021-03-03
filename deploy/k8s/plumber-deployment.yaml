@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: plumber
+  name: plumber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plumber
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: plumber
+    spec:
+      imagePullSecrets:
+        - name: harbor-docker-secret
+      restartPolicy: Always
+      containers:
+        - image: dollarkiller/plumber:latest
+          imagePullPolicy: Always
+          name: plumber
+          ports:
+            - containerPort: 8089
