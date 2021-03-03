@@ -12,10 +12,11 @@ const (
 
 // event
 type MQEvent struct {
-	Table  *Table       `json:"table"`
-	Action Action       `json:"action"`
-	Rows   string       `json:"rows"`
-	Header *EventHeader `json:"header"`
+	Table       *Table          `json:"table"`
+	Action      Action          `json:"action"`
+	Rows        string          `json:"rows"`
+	OriginalRow [][]interface{} `json:"original_row"`
+	Header      *EventHeader    `json:"header"`
 }
 
 // Table

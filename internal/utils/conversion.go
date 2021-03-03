@@ -16,10 +16,11 @@ func PkgMQEvent(event *canal.RowsEvent) *models.MQEvent {
 	}
 
 	return &models.MQEvent{
-		Table:  PkgTable(event.Table),
-		Action: models.Action(event.Action),
-		Rows:   PkgRows(event),
-		Header: PkgEventHeader(event.Header),
+		Table:       PkgTable(event.Table),
+		Action:      models.Action(event.Action),
+		Rows:        PkgRows(event),
+		OriginalRow: event.Rows,
+		Header:      PkgEventHeader(event.Header),
 	}
 }
 

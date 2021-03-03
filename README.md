@@ -127,6 +127,7 @@ POST: `http://127.0.0.1:8089/stop_monitor/:task_id`
     "rows":"[{"key":"sd","value":"sd"},{"key":"sd","value":"000"}]",  # If it is insert , the number of rows is 1 and rows[0] is the current inserted data.
                                                                         If it is update, the number of rows is 2, rows[0] is the old data rows[1] is the new data
                                                                         If it is delete, the number of rows is 1 and rows[0] is the deleted data.
+    "original_row": [["sd", "sd"], ["sd", "000"]], # original row
     "header":{
         "timestamp":1614762803,
         "event_type":31,

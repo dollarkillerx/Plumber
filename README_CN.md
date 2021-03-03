@@ -127,6 +127,7 @@ POST: `http://127.0.0.1:8089/stop_monitor/:task_id`
     "rows":"[{"key":"sd","value":"sd"},{"key":"sd","value":"000"}]",  # 如果是insert , rows 数量为1， rows[0]为当前插入的数据.
                                                                         如果是update，rows数量为2，rows[0] 为旧数据 rows[1]为新数据
                                                                         如果是delete, rows 数量为1， rows[0]为删除的数据
+    "original_row": [["sd", "sd"], ["sd", "000"]], # 原始row
     "header":{
         "timestamp":1614762803,
         "event_type":31,
