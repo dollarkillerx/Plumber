@@ -13,20 +13,25 @@ func init() {
 }
 
 var MQManager = &mqManager{
-	mqs: map[string]MQ{},
+	registerMQ: map[string]MQ{},
 }
 
 type mqManager struct {
-	mqs map[string]MQ
-	mq  MQ
+	registerMQ map[string]MQ // 注册的MQ
+	mqs        map[string]MQ // 激活的MQ
 }
 
 func (m *mqManager) RegisterMQ(mn config.MQEngine, mq MQ) {
-	m.mqs[string(mn)] = mq
+	m.registerMQ[string(mn)] = mq
 }
 
-func (m *mqManager) GetMQ() MQ {
-	return m.mq
+func (m *mqManager) GetMQ(mqs config.MQEngine) (MQ, error) {
+	mq, ex := m.mqs[mqs.String()]
+	if !ex {
+		return nil, errors.WithStack(fmt.Errorf("not found: %s", mq))
+	}
+
+	return mq, nil
 }
 
 func (m *mqManager) InitMQManager(cfg config.BaseConfig) error {
@@ -39,7 +44,7 @@ func (m *mqManager) InitMQManager(cfg config.BaseConfig) error {
 			return errors.New("No configuration for kafka was found")
 		}
 
-		mq, ex = m.mqs[config.Kafka.String()]
+		mq, ex = m.registerMQ[config.Kafka.String()]
 		if !ex {
 			return errors.New("not found kafka plugin")
 		}
@@ -48,7 +53,7 @@ func (m *mqManager) InitMQManager(cfg config.BaseConfig) error {
 			return errors.New("No configuration for NSQ was found")
 		}
 
-		mq, ex = m.mqs[config.Kafka.String()]
+		mq, ex = m.registerMQ[config.Kafka.String()]
 		if !ex {
 			return errors.New("not found nsq plugin")
 		}
@@ -57,7 +62,7 @@ func (m *mqManager) InitMQManager(cfg config.BaseConfig) error {
 			return errors.New("No configuration for RabbitMQ was found")
 		}
 
-		mq, ex = m.mqs[config.Kafka.String()]
+		mq, ex = m.registerMQ[config.Kafka.String()]
 		if !ex {
 			return errors.New("not found RabbitMQ plugin")
 		}

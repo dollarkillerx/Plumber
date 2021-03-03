@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
+	"fmt"
 	"log"
 	"strings"
 
@@ -20,5 +22,10 @@ func main() {
 		panic(err)
 	}
 
+	fmt.Println(config.CONF)
 
+	marshal, err := json.Marshal(config.CONF)
+	if err == nil {
+		fmt.Println(string(marshal))
+	}
 }

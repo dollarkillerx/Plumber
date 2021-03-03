@@ -1,0 +1,15 @@
+Engine: MySQL
+MQEngine: Kafka
+DBConfig:
+  Host: 127.0.0.1
+  Port: 3305
+  User: root
+  Password: root
+
+CDCStartTimestamp: 0
+
+KafkaConfig:
+  Brokers:
+    - 192.168.88.11:9082
+  EnableSASL: false
+
