@@ -1,6 +1,9 @@
 package utils
 
 import (
+	"log"
+
+	"encoding/json"
 	"github.com/dollarkillerx/plumber/pkg/models"
 	"github.com/siddontang/go-mysql/canal"
 	"github.com/siddontang/go-mysql/replication"
@@ -15,9 +18,46 @@ func PkgMQEvent(event *canal.RowsEvent) *models.MQEvent {
 	return &models.MQEvent{
 		Table:  PkgTable(event.Table),
 		Action: models.Action(event.Action),
-		Rows:   event.Rows,
+		Rows:   PkgRows(event),
 		Header: PkgEventHeader(event.Header),
 	}
+}
+
+func PkgRows(event *canal.RowsEvent) (resp string) {
+	resp = ""
+
+	defer func() {
+		if err := recover(); err != nil {
+			return
+		}
+	}()
+
+	if event.Table == nil || len(event.Rows) == 0 {
+		return resp
+	}
+
+	c := make([]string, 0)
+	for _, v := range event.Table.Columns {
+		c = append(c, v.Name)
+	}
+
+	r := make([]map[string]interface{}, 0)
+	for _, v := range event.Rows {
+		vc := map[string]interface{}{}
+		for k, vv := range v {
+			vc[c[k]] = vv
+		}
+
+		r = append(r, vc)
+	}
+
+	marshal, err := json.Marshal(r)
+	if err != nil {
+		log.Println(err)
+		return resp
+	}
+
+	return string(marshal)
 }
 
 func PkgEventHeader(header *replication.EventHeader) *models.EventHeader {
@@ -87,3 +127,33 @@ func PkgTable(event *schema.Table) *models.Table {
 		UnsignedColumns: event.UnsignedColumns,
 	}
 }
+
+//func PkgRows(event *canal.RowsEvent) (resp []map[string]interface{}) {
+//	resp = make([]map[string]interface{}, 0)
+//
+//	defer func() {
+//		if err := recover(); err != nil {
+//			return
+//		}
+//	}()
+//
+//	if event.Table == nil || len(event.Rows) == 0 {
+//		return resp
+//	}
+//
+//	c := make([]string, 0)
+//	for _, v := range event.Table.Columns {
+//		c = append(c, v.Name)
+//	}
+//
+//	for _, v := range event.Rows {
+//		vc := map[string]interface{}{}
+//		for k, vv := range v {
+//			vc[c[k]] = vv
+//		}
+//
+//		resp = append(resp, vc)
+//	}
+//
+//	return resp
+//}

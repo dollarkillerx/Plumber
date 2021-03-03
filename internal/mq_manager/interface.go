@@ -6,6 +6,7 @@ import (
 )
 
 type MQ interface {
-	InitMQ(config.BaseConfig) error
+	InitMQ(cfg config.BaseConfig) error
 	SendMQ(event *models.MQEvent) error
+	Close()
 }

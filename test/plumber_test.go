@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/dollarkillerx/plumber/internal/utils"
 	"github.com/siddontang/go-mysql/canal"
 )
 
@@ -55,26 +56,32 @@ func (h *MyEventHandler) OnRow(e *canal.RowsEvent) error {
 	//
 	//fmt.Println(string(marshal))
 
-	c := make([]string, 0)
-	for _, v := range e.Table.Columns {
-		c = append(c, v.Name)
-	}
-	r := make([]map[string]interface{}, 0)
-	for _, v := range e.Rows {
-		vc := map[string]interface{}{}
-		for k, vv := range v {
-			vc[c[k]] = vv
-		}
+	//c := make([]string, 0)
+	//for _, v := range e.Table.Columns {
+	//	c = append(c, v.Name)
+	//}
+	//r := make([]map[string]interface{}, 0)
+	//for _, v := range e.Rows {
+	//	vc := map[string]interface{}{}
+	//	for k, vv := range v {
+	//		vc[c[k]] = vv
+	//	}
+	//
+	//	r = append(r, vc)
+	//}
+	//
+	//marshal, err := json.Marshal(r)
+	//if err != nil {
+	//	log.Println(err)
+	//	return err
+	//}
+	//fmt.Println(string(marshal))
 
-		r = append(r, vc)
+	event := utils.PkgMQEvent(e)
+	marshal, err := json.Marshal(event)
+	if err == nil {
+		fmt.Println(string(marshal))
 	}
-
-	marshal, err := json.Marshal(r)
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-	fmt.Println(string(marshal))
 	return nil
 }
 

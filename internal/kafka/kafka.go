@@ -49,6 +49,9 @@ loop:
 		select {
 		case mg, ex := <-k.eventChannel:
 			if !ex {
+				if err := k.producer.Close(); err != nil {
+					log.Println(err)
+				}
 				break loop
 			}
 
@@ -76,4 +79,8 @@ loop:
 func (k *Kafka) SendMQ(event *models.MQEvent) error {
 	k.eventChannel <- event
 	return nil
+}
+
+func (k *Kafka) Close() {
+	close(k.eventChannel)
 }
