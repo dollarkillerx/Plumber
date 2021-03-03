@@ -1,13 +1,12 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
-	"fmt"
 	"log"
 	"strings"
 
 	"github.com/dollarkillerx/plumber/internal/config"
+	"github.com/dollarkillerx/plumber/internal/scheduler"
 )
 
 var configFileName = flag.String("cfn", "config", "name of configs file")
@@ -22,10 +21,8 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println(config.CONF)
-
-	marshal, err := json.Marshal(config.CONF)
-	if err == nil {
-		fmt.Println(string(marshal))
+	ser := scheduler.New(*config.CONF)
+	if err := ser.ListenAndServe(); err != nil {
+		log.Fatalf("%+v", err)
 	}
 }

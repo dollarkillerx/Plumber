@@ -16,6 +16,7 @@ func TestBase(t *testing.T) {
 	cfg.Addr = "127.0.0.1:3305"
 	cfg.User = "root"
 	cfg.Password = "root"
+	//cfg.Flavor = string(config.MariaDB)  //  show binary logs;   binlog => row
 	// We only care table canal_test in test db
 	//cfg.Dump.TableDB = "test"
 	//cfg.Dump.Tables = []string{"canal_test"}

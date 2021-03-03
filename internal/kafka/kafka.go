@@ -6,18 +6,18 @@ import (
 	"log"
 
 	"github.com/Shopify/sarama"
-	"github.com/dollarkillerx/plumber/internal/config"
 	"github.com/dollarkillerx/plumber/pkg/models"
+	"github.com/dollarkillerx/plumber/pkg/newsletter"
 	"github.com/pkg/errors"
 )
 
 type Kafka struct {
 	producer     sarama.SyncProducer
 	eventChannel chan *models.MQEvent
-	config       config.BaseConfig
+	config       newsletter.TaskConfig
 }
 
-func (k *Kafka) InitMQ(config config.BaseConfig) error {
+func (k *Kafka) InitMQ(config newsletter.TaskConfig) error {
 	kafkaConfig := sarama.NewConfig()
 
 	if config.KafkaConfig.EnableSASL {
