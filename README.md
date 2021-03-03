@@ -59,5 +59,79 @@ GET: `http://127.0.0.1:8089/all_monitor`
 ### Ending the listening of a CDC
 POST: `http://127.0.0.1:8089/stop_monitor/:task_id`
 
+### CDC MESSAGE:
+``` 
+{
+    "table":{
+        "db_name":"cpx",
+        "table_name":"kvs",
+        "columns":[
+            {
+                "name":"key",
+                "type":5,
+                "collation":"utf8mb4_0900_ai_ci",
+                "raw_type":"varchar(255)",
+                "is_auto":false,
+                "is_unsigned":false,
+                "is_virtual":false,
+                "enum_values":null,
+                "set_values":null,
+                "fixed_size":0,
+                "max_size":255
+            },
+            {
+                "name":"value",
+                "type":5,
+                "collation":"utf8mb4_0900_ai_ci",
+                "raw_type":"varchar(255)",
+                "is_auto":false,
+                "is_unsigned":false,
+                "is_virtual":false,
+                "enum_values":null,
+                "set_values":null,
+                "fixed_size":0,
+                "max_size":255
+            }
+        ],
+        "indexes":[
+            {
+                "name":"PRIMARY",
+                "columns":[
+                    "key"
+                ],
+                "cardinality":[
+                    1
+                ]
+            },
+            {
+                "name":"idx_kvs_value",
+                "columns":[
+                    "value"
+                ],
+                "cardinality":[
+                    1
+                ]
+            }
+        ],
+        "pk_columns":[
+            0
+        ],
+        "unsigned_columns":null
+    },
+    "action":"update",   #  update, insert, delete
+    "rows":"[{"key":"sd","value":"sd"},{"key":"sd","value":"000"}]",  # If it is insert , the number of rows is 1 and rows[0] is the current inserted data.
+                                                                        If it is update, the number of rows is 2, rows[0] is the old data rows[1] is the new data
+                                                                        If it is delete, the number of rows is 1 and rows[0] is the deleted data.
+    "header":{
+        "timestamp":1614762803,
+        "event_type":31,
+        "server_id":1,
+        "event_size":55,
+        "log_pos":4939,
+        "flags":0
+    }
+}
+```
+
 ### Dev Rely
 - mysql-client  `sudo apt-get install mysql-client`

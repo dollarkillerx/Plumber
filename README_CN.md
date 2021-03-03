@@ -60,5 +60,79 @@ GET: `http://127.0.0.1:8089/all_monitor`
 ### 结束某个CDC的监听
 POST: `http://127.0.0.1:8089/stop_monitor/:task_id`
 
+### CDC MESSAGE:
+``` 
+{
+    "table":{
+        "db_name":"cpx",
+        "table_name":"kvs",
+        "columns":[
+            {
+                "name":"key",
+                "type":5,
+                "collation":"utf8mb4_0900_ai_ci",
+                "raw_type":"varchar(255)",
+                "is_auto":false,
+                "is_unsigned":false,
+                "is_virtual":false,
+                "enum_values":null,
+                "set_values":null,
+                "fixed_size":0,
+                "max_size":255
+            },
+            {
+                "name":"value",
+                "type":5,
+                "collation":"utf8mb4_0900_ai_ci",
+                "raw_type":"varchar(255)",
+                "is_auto":false,
+                "is_unsigned":false,
+                "is_virtual":false,
+                "enum_values":null,
+                "set_values":null,
+                "fixed_size":0,
+                "max_size":255
+            }
+        ],
+        "indexes":[
+            {
+                "name":"PRIMARY",
+                "columns":[
+                    "key"
+                ],
+                "cardinality":[
+                    1
+                ]
+            },
+            {
+                "name":"idx_kvs_value",
+                "columns":[
+                    "value"
+                ],
+                "cardinality":[
+                    1
+                ]
+            }
+        ],
+        "pk_columns":[
+            0
+        ],
+        "unsigned_columns":null
+    },
+    "action":"update",   #  update, insert, delete
+    "rows":"[{"key":"sd","value":"sd"},{"key":"sd","value":"000"}]",  # 如果是insert , rows 数量为1， rows[0]为当前插入的数据.
+                                                                        如果是update，rows数量为2，rows[0] 为旧数据 rows[1]为新数据
+                                                                        如果是delete, rows 数量为1， rows[0]为删除的数据
+    "header":{
+        "timestamp":1614762803,
+        "event_type":31,
+        "server_id":1,
+        "event_size":55,
+        "log_pos":4939,
+        "flags":0
+    }
+}
+```
+
 ### 开发依赖
 - mysql-client  `sudo apt-get install mysql-client`
