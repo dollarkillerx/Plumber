@@ -201,3 +201,14 @@ POST BODY:
 
 ### Dev Rely
 - mysql-client  `sudo apt-get install mysql-client`
+
+
+#### seo
+- MySQL cdc Kafka
+- MySQL cdc NSQ
+- MySQL cdc RabbitMQ
+- MySQL cdc MongoDB
+- MariaDB cdc Kafka
+- MariaDB cdc NSQ
+- MariaDB cdc RabbitMQ
+- MariaDB cdc MongoDB
