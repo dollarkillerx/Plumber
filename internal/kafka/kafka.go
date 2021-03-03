@@ -38,12 +38,12 @@ func (k *Kafka) InitMQ(config newsletter.TaskConfig) error {
 	}
 	k.producer = producer
 	k.config = config
+	k.eventChannel = make(chan *models.MQEvent, 1000)
 	go k.core()
 	return nil
 }
 
 func (k *Kafka) core() {
-	k.eventChannel = make(chan *models.MQEvent, 1000)
 loop:
 	for {
 		select {

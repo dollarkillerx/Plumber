@@ -1,17 +1,22 @@
 package scheduler
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+
+	"github.com/gin-gonic/gin"
+)
 
 func (s *Scheduler) ListenAndServe() error {
 	app := gin.New()
 	app.Use(gin.Recovery())
-	gin.SetMode(gin.ReleaseMode)
+	//gin.SetMode(gin.ReleaseMode)
 	if s.cfg.Debug {
 		app.Use(gin.Logger())
 	}
 
 	s.registerRouter(app)
 
+	fmt.Println("Run Plumber ...")
 	return app.Run(s.cfg.ListenAddr)
 }
 

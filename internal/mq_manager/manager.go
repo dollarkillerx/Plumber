@@ -60,5 +60,6 @@ func (m *mqManager) InitMQManager(cfg newsletter.TaskConfig) (MQ, error) {
 		return nil, errors.WithStack(fmt.Errorf("not found %s", cfg.MQEngine))
 	}
 
-	return mq, mq.InitMQ(cfg)
+	err := mq.InitMQ(cfg)
+	return mq, err
 }

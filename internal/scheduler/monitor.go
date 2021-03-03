@@ -19,7 +19,8 @@ func (s *Scheduler) newMonitor(ctx *gin.Context) {
 	}
 
 	mq, err := mq_manager.MQManager.InitMQManager(taskConfig)
-	if err == nil {
+	if err != nil {
+		log.Printf("%+v \n", err)
 		ctx.JSON(400, gin.H{"error": fmt.Sprintf("%+v", err)})
 		return
 	}
@@ -60,6 +61,7 @@ func (s *Scheduler) stopMonitor(ctx *gin.Context) {
 	}
 
 	if err := t.Close(); err != nil {
+		log.Printf("%+v \n", err)
 		ctx.JSON(500, gin.H{"error": fmt.Sprintf("%+v", err)})
 		return
 	}
