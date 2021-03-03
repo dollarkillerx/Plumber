@@ -66,5 +66,6 @@ func (s *Scheduler) stopMonitor(ctx *gin.Context) {
 		return
 	}
 
+	delete(s.tasks, taskID)
 	ctx.JSON(200, gin.H{"success": true})
 }
