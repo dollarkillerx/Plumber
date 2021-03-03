@@ -27,7 +27,8 @@ Body:
     },
     "kafka_config": {
         "enable_sasl": false,
-        "brokers": ["127.0.0.1:9082"]
+        "brokers": ["127.0.0.1:9082"],
+        "topic": "test1"
     }
 }
 
@@ -46,7 +47,8 @@ Body:
     },
     "kafka_config": {
         "enable_sasl": false,
-        "brokers": ["127.0.0.1:9082"]
+        "brokers": ["127.0.0.1:9082"],
+        "topic": "test1"
     }
 }
 ```
