@@ -25,7 +25,7 @@ func New(mq mq_manager.MQ, cfg newsletter.TaskConfig) *Task {
 
 	if mq == nil {
 		log.Println("what fuck")
-	}else  {
+	} else {
 		fmt.Println("iiii")
 	}
 

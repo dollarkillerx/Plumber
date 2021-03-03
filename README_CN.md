@@ -5,8 +5,8 @@
 ### 开发进度
 - [x] 基础设施
 - [x] Kafka
-- [ ] NSQ
-- [ ] RabbitMQ
+- [x] NSQ
+- [x] RabbitMQ
 - [ ] MongoDB
 
 
@@ -130,6 +130,67 @@ POST: `http://127.0.0.1:8089/stop_monitor/:task_id`
         "event_size":55,
         "log_pos":4939,
         "flags":0
+    }
+}
+```
+
+### 使用Kafka作为MQ
+POST BODY:
+```json
+{
+    "engine":  "MySQL",
+    "mq_engine": "Kafka",
+    "cdc_start_timestamp": 0,
+    "db_config": {
+        "host": "127.0.0.1",
+        "port": 3306,
+        "user": "root",
+        "password": "root"
+    },
+    "kafka_config": {
+        "enable_sasl": false,
+        "brokers": ["127.0.0.1:9082"],
+        "topic": "test1"
+    }
+}
+```
+
+### 使用NSQ作为MQ
+POST BODY:
+```json
+{
+    "engine":  "MySQL",
+    "mq_engine": "NSQ",
+    "cdc_start_timestamp": 0,
+    "db_config": {
+        "host": "127.0.0.1",
+        "port": 3306,
+        "user": "root",
+        "password": "root"
+    },
+    "nsq_config": {
+        "addr": ["127.0.0.1:4150"],
+        "topic": "test1"
+    }
+}
+```
+
+### 使用RabbitMQ作为MQ
+POST BODY:
+```json
+{
+    "engine":  "MySQL",
+    "mq_engine": "RabbitMQ",
+    "cdc_start_timestamp": 0,
+    "db_config": {
+        "host": "127.0.0.1",
+        "port": 3306,
+        "user": "root",
+        "password": "root"
+    },
+    "rabbit_mq_config": {
+        "uri": "amqp://admin:admin@127.0.0.1:5672/",
+        "queue": "test1"
     }
 }
 ```

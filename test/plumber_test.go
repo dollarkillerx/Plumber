@@ -107,10 +107,10 @@ func TestKafkaConsumer(t *testing.T) {
 		partition.Close()
 	}()
 
-	loop:
+loop:
 	for {
 		select {
-		case r,ex := <-partition.Messages():
+		case r, ex := <-partition.Messages():
 			if !ex {
 				break loop
 			}

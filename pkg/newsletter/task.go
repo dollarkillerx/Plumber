@@ -38,9 +38,13 @@ type KafkaConfig struct {
 }
 
 type NSQConfig struct {
+	Addr  []string `json:"addr"`
+	Topic string   `json:"topic"`
 }
 
 type RabbitMQConfig struct {
+	Uri   string `json:"uri"` // "amqp://guest:guest@127.0.0.1:5672/"
+	Queue string `json:"queue"`
 }
 
 type TaskConfig struct {

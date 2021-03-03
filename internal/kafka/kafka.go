@@ -12,9 +12,10 @@ import (
 )
 
 type Kafka struct {
-	producer     sarama.SyncProducer
+	producer sarama.SyncProducer
+	config   newsletter.TaskConfig
+
 	eventChannel chan *models.MQEvent
-	config       newsletter.TaskConfig
 }
 
 func (k *Kafka) InitMQ(config newsletter.TaskConfig) error {
@@ -65,12 +66,17 @@ loop:
 				continue
 			}
 
-			if _, _, err := k.producer.SendMessage(&sarama.ProducerMessage{
-				Topic: k.config.KafkaConfig.Topic,
-				Key:   sarama.ByteEncoder(fmt.Sprintf("%s_%s", mg.Table.DBName, mg.Table.TableName)),
-				Value: sarama.ByteEncoder(marshal),
-			}); err != nil {
-				log.Println(err)
+			for i := 0; i < 3; i++ {
+				if _, _, err := k.producer.SendMessage(&sarama.ProducerMessage{
+					Topic: k.config.KafkaConfig.Topic,
+					Key:   sarama.ByteEncoder(fmt.Sprintf("%s_%s", mg.Table.DBName, mg.Table.TableName)),
+					Value: sarama.ByteEncoder(marshal),
+				}); err != nil {
+					fmt.Printf("%+v \n", err)
+					continue
+				}
+
+				break
 			}
 		}
 	}

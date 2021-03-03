@@ -4,12 +4,16 @@ import (
 	"fmt"
 
 	"github.com/dollarkillerx/plumber/internal/kafka"
+	"github.com/dollarkillerx/plumber/internal/nsq"
+	"github.com/dollarkillerx/plumber/internal/rabbitmq"
 	"github.com/dollarkillerx/plumber/pkg/newsletter"
 	"github.com/pkg/errors"
 )
 
 func init() {
 	MQManager.RegisterMQ(newsletter.Kafka, &kafka.Kafka{})
+	MQManager.RegisterMQ(newsletter.NSQ, &nsq.NSQ{})
+	MQManager.RegisterMQ(newsletter.RabbitMQ, &rabbitmq.RabbitMQ{})
 }
 
 var MQManager = &mqManager{
@@ -48,7 +52,7 @@ func (m *mqManager) InitMQManager(cfg newsletter.TaskConfig) (MQ, error) {
 			return nil, errors.New("not found nsq plugin")
 		}
 	case newsletter.RabbitMQ:
-		if cfg.NSQConfig == nil {
+		if cfg.RabbitMQConfig == nil {
 			return nil, errors.New("No configuration for RabbitMQ was found")
 		}
 
